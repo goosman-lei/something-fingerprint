@@ -11,7 +11,7 @@
 逻辑过程:
 
 1. 主页加载
-2. GET https://www.nike.com/static/b28522d645a1818a5b600fe3b42865c    [指纹签名代码]
+2. GET https://www.nike.com/static/b28522d645a1818a5b600fe3b42865c    [指纹签名代码: 可参考同目录下反解后代码]
 3. 鼠标点击事件, 会触发该文件中的bmak['cma']函数.
 4. bmak['cma']调用bmak['bpd']计算指纹签名
 5. bmak['cma']调用bmak['pd'], 在需要时, POST https://www.nike.com/static/b28522d645a1818a5b600fe3b42865c 提交签名.
