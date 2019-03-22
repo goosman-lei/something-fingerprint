@@ -1,7 +1,23 @@
 # SPAM特征记录
 
-* 2019.03.17 每10-15分钟, 注册3次后被Ban掉
-* 2019.03.17 每10分钟, 登陆/添加购物车10次后被Ban掉
+* 2019.03.17 每10-15分钟, 注册10次后被Ban掉(使用动态IP SOCKS5代理也没用)
+
+# 已知的信息
+
+* CDN服务由akamai提供
+* 网站前端采用了一种指纹算法
+* Akamai有一项被动指纹技术: https://www.akamai.com/uk/en/multimedia/documents/white-paper/passive-fingerprinting-of-http2-clients-white-paper.pdf
+
+逻辑过程:
+
+1. 主页加载
+2. GET https://www.nike.com/static/b28522d645a1818a5b600fe3b42865c    [指纹签名代码]
+3. 鼠标点击事件, 会触发该文件中的bmak['cma']函数.
+4. bmak['cma']调用bmak['bpd']计算指纹签名
+5. bmak['cma']调用bmak['pd'], 在需要时, POST https://www.nike.com/static/b28522d645a1818a5b600fe3b42865c 提交签名.
+  * POST这个请求时, 会提交一个名为_abck的cookie, 此cookie值使用"~"字符分段
+  * 如果指纹签名认证成功(可执行后续流程), 则其响应会set-cookie, 将该cookie第二分段值, 从-1修改为0.
+6. 网站的登陆/注册等请求, 是需要前置的这个指纹签名先行提交认证的, 否则会返回403.
 
 # fingerprint => sensor_data解密
 
